@@ -1,0 +1,14 @@
+
+repositories {
+    mavenCentral()
+}
+
+// need to activate this if Application.java file is removed.
+//bootJar {
+//    enabled = false
+//}
+//
+//jar {
+//    enabled = true
+//}
+

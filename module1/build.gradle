@@ -1,0 +1,20 @@
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':module2')
+}
+
+appengine {
+    deploy {
+        stopPreviousVersion = false
+        promote = false
+        projectId = 'gajendran-mohan'
+        version = 'modules1'
+    }
+
+    stage {
+        artifact = "${buildDir}/libs/module1-0.0.1.jar"
+    }
+}
