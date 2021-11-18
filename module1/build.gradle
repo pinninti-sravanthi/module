@@ -7,10 +7,11 @@ dependencies {
 }
 
 appengine {
+
     deploy {
         stopPreviousVersion = false
         promote = false
-        projectId = 'gajendran-mohan'
+        projectId = 'staging-goclockin'
         version = 'modules1'
     }
 

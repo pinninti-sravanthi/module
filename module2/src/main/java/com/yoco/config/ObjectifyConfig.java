@@ -4,7 +4,7 @@ import com.google.cloud.datastore.DatastoreOptions;
 import com.googlecode.objectify.ObjectifyFactory;
 import com.googlecode.objectify.ObjectifyFilter;
 import com.googlecode.objectify.ObjectifyService;
-import com.yoco.entity.User;
+import com.yoco.entity.Contact;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
@@ -42,24 +42,24 @@ public class ObjectifyConfig {
 
             // if ("local".equals(System.getenv("SPRING_PROFILES_ACTIVE"))) {
 
-            ObjectifyService.init();
+         //   ObjectifyService.init();
 
-//            ObjectifyService.init(new ObjectifyFactory(
-//                    DatastoreOptions.newBuilder()
-//                            .setHost("http://localhost:8080")
-//                            .setProjectId("gajendran-mohan")
-//                            .build()
-//                            .getService()
-//            ));
+            ObjectifyService.init(new ObjectifyFactory(
+                    DatastoreOptions.newBuilder()
+                            .setHost("http://localhost:8484")
+                            .setProjectId("staging-goclockin")
+                            .build()
+                            .getService()
+            ));
 
 //        } else {
-//                // on appengine
+                // on appengine
 //                ObjectifyService.init(new ObjectifyFactory(
 //                        DatastoreOptions.getDefaultInstance().getService()
 //                ));
 //        }
 
-            ObjectifyService.register(User.class);
+            ObjectifyService.register(Contact.class);
         }
 
         @Override
