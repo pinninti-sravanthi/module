@@ -3,17 +3,15 @@ package com.yoco.endpoint;
 import com.yoco.entity.CollectionResponse;
 import com.yoco.entity.Contact;
 import com.yoco.service.ContactService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @RestController
 public class ContactEndPoint {
 
@@ -23,46 +21,59 @@ public class ContactEndPoint {
     @GetMapping("/")
     public String hello() {
 
-        System.out.println(" came here ");
+        log.info( " came here ");
         return contactService.test();
     }
 
-    @GetMapping("/get")
-    public Contact get(@RequestParam long id) {
+    @GetMapping("/get/{id}")
+    public Contact get(@PathVariable String id) {
+
+        log.info(" get contact with id " + id);
 
         return contactService.getContact(id);
     }
 
+//    @GetMapping("/get/long/{id}")
+//    public Contact getWithLong(@PathVariable Long id) {
+//
+//        log.info(" get contact with id " + id);
+//
+//        return contactService.getContact(id);
+//    }
+
     @PostMapping("/save")
-    public Contact save(@RequestParam String name, @RequestParam String password, @RequestParam String[] address){
+    public Contact save(@RequestBody Contact contact){
 
-        return contactService.saveContact(name,password,address);
+        log.info(" save contact with request body  ");
+
+        return contactService.saveContact(contact);
     }
 
-    @GetMapping("/getByFilter")
-    public Contact getByFilter(@RequestParam String name, @RequestParam String password) {
 
-        System.out.println(" in end point");
-        return contactService.getContactByFilter(name,password);
+    @GetMapping("/getByFilter/{email}/{password}")
+    public Contact getByFilter(@PathVariable String email, @PathVariable String password) {
+
+        log.info(" getByFilter ");
+        return contactService.getContactByFilter(email,password);
     }
 
-    @GetMapping("/getAll")
-    public List<Contact> getAll(@RequestParam String name, @RequestParam String password) {
+    @GetMapping("/getAll/{email}/{password}")
+    public List<Contact> getAll(@PathVariable String email, @PathVariable String password) {
 
-        System.out.println(" in end point - all ");
+        log.info(" getAll ");
 
-        return contactService.getAll(name,password);
+        return contactService.getAll(email,password);
     }
 
-    @GetMapping("/getByCursor")
-    public Map<String,Object> getAllByCursor(@RequestParam String name, @RequestParam String password,
-                                             @RequestParam int limit, @Nullable @RequestParam String cursor) {
+    @GetMapping("/getByCursor/{email}/{password}")
+    public Map<String,Object> getAllByCursor(@PathVariable String email, @PathVariable String password,
+                                             @RequestParam int limit, @RequestParam String cursor) {
 
         Map<String,Object> response = new HashMap<>();
 
-        System.out.println(" in end point - cursor ");
+        log.info(" in end point - cursor ");
 
-        CollectionResponse<Contact> collectionResponse = contactService.getAllByCursor(name,password,limit,cursor);
+        CollectionResponse<Contact> collectionResponse = contactService.getAllByCursor(email,password,limit,cursor);
 
         response.put("contact", collectionResponse.getItems());
         response.put("cursor", collectionResponse.getCursor());
@@ -70,28 +81,36 @@ public class ContactEndPoint {
         return response;
     }
 
-    @GetMapping("/getAllSorted")
-    public List<Contact> getAllSorted(@RequestParam String name) {
+    @GetMapping("/getAllSorted/{email}")
+    public List<Contact> getAllSorted(@PathVariable String email) {
 
-        System.out.println(" in end point - all sorted ");
+        log.info(" in end point - all sorted ");
 
-        return contactService.getAllInOrder(name);
+        return contactService.getAllInOrder(email);
     }
 
-    @GetMapping("/getByName")
-    public Contact getByName(@RequestParam String name) {
+    @GetMapping("/getByName/{email}")
+    public Contact getByEmail(@PathVariable String email) {
 
-        System.out.println(" in end point - getByName ");
+        log.info(" in end point - getByName " + email);
 
-        return contactService.getByName(name);
+        return contactService.getByEmail(email);
     }
 
     @GetMapping("/getAllContacts")
     public List<Contact> getAllContacts() {
 
-        System.out.println(" in end point - all  ");
+        log.info(" in end point - all  ");
 
         return contactService.getAllContacts();
+    }
+
+    @GetMapping("/getAddress/{email}")
+    public List<Contact> getAddress(@PathVariable String email,@RequestParam String address ) {
+
+        log.info(" in end point - address  ");
+
+        return contactService.getAddress(email,address);
     }
 
 }

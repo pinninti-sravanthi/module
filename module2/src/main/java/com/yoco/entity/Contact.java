@@ -1,79 +1,39 @@
 package com.yoco.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+@Data
+@NoArgsConstructor
 @Entity
-public class Contact {
+public class Contact implements Serializable {
+
+    private static final long serialVersionUID = -2128618297818287420L;
 
     @Id
-    Long id;
+    private String id;
 
     @Index
-    String name;
+    private String email;
 
     @Index
-    String password;
+    private String password;
 
     @Index
-    Long dateAddedLongTime = new Date().getTime();
+    private Long dateAddedLongTime = new Date().getTime();
 
+    @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
     @Index
     private List<String> addresses = new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public Long getDateAddedLongTime() {
-        return dateAddedLongTime;
-    }
-
-    public void setDateAddedLongTime(Long dateAddedLongTime) {
-        this.dateAddedLongTime = dateAddedLongTime;
-    }
-
-    public List<String> getAddresses() {
-        return addresses;
-    }
-
-    public void setAddresses(List<String> addresses) {
-        this.addresses = addresses;
-    }
-
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", dateAddedLongTime=" + dateAddedLongTime +
-                ", addresses=" + addresses +
-                '}';
-    }
 }

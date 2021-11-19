@@ -8,9 +8,9 @@ import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyService;
 import com.googlecode.objectify.cmd.Query;
 import com.yoco.entity.CollectionResponse;
+import com.yoco.entity.Contact;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -20,8 +20,8 @@ public class OfyService {
         return ObjectifyService.ofy();
     }
 
-    public <T> T get(Class<T> clazz, String key) {
-        return  ofy().load().type(clazz).id(key).now();
+    public static <T> T get(Class<T> clazz, String key) {
+        return ofy().load().type(clazz).id(key).now();
     }
 
     public static <T> T get(Class<T> clazz, long key) {

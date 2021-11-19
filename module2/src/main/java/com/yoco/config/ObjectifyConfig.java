@@ -40,10 +40,6 @@ public class ObjectifyConfig {
         @Override
         public void contextInitialized(ServletContextEvent sce) {
 
-            // if ("local".equals(System.getenv("SPRING_PROFILES_ACTIVE"))) {
-
-         //   ObjectifyService.init();
-
             ObjectifyService.init(new ObjectifyFactory(
                     DatastoreOptions.newBuilder()
                             .setHost("http://localhost:8484")
@@ -52,12 +48,11 @@ public class ObjectifyConfig {
                             .getService()
             ));
 
-//        } else {
+
                 // on appengine
 //                ObjectifyService.init(new ObjectifyFactory(
 //                        DatastoreOptions.getDefaultInstance().getService()
 //                ));
-//        }
 
             ObjectifyService.register(Contact.class);
         }

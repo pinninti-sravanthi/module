@@ -1,13 +1,19 @@
 package com.yoco.service;
 
+import com.google.common.collect.Lists;
 import com.yoco.entity.CollectionResponse;
 import com.yoco.entity.Contact;
 import com.yoco.services.dao.ContactDao;
 import com.yoco.services.impl.ContactImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
+@Slf4j
 @Service
 public class ContactService {
 
@@ -18,69 +24,77 @@ public class ContactService {
         return "from module 1";
     }
 
-    public Contact saveContact(String name, String password,String[] address){
+    public Contact saveContact(Contact contact){
 
-        System.out.println(" saving contact to db name " + name + " password " + password);
+        log.info(" save contact " + new com.google.gson.Gson().toJson(contact));
 
-        Contact contact = new Contact();
-        contact.setName(name);
-        contact.setPassword(password);
-        contact.setAddresses(List.of(address));
-
-        String jsonString = new com.google.gson.Gson().toJson(contact);
-
-        System.out.println(" in save contact " + jsonString);
-
+        contact.setId(UUID.randomUUID().toString());
         return contactDao.save(contact);
     }
 
-    public Contact getContact(long key) {
+    public Contact getContact(String key) {
 
-        System.out.println(" fetching contact from db " + key);
+        log.info(" fetching contact from db " + key);
 
         return contactDao.get(key);
     }
 
-    public Contact getContactByFilter(String name, String password) {
+//    public Contact getContact(Long key) {
+//
+//        log.info(" fetching contact from db " + key);
+//
+//        return contactDao.get(key);
+//    }
 
-        System.out.println(" fetching contact from db via filter " + name + " password " + password);
+    public Contact getContactByFilter(String email, String password) {
 
-        return contactDao.getByFilter(name,password);
+        log.info(" fetching contact from db via filter " + email + " password " + password);
+
+        return contactDao.getByFilter(email,password);
     }
 
-    public List<Contact> getAll(String name,String password){
+    public List<Contact> getAll(String email,String password){
 
-        System.out.println(" fetching contact from db all " + name + " password " + password);
+        log.info(" fetching contact from db all " + email + " password " + password);
 
-        return contactDao.getAll(name,password);
+        return contactDao.getAll(email,password);
     }
 
-    public CollectionResponse<Contact> getAllByCursor(String name, String password, int limit, String cursor){
+    public CollectionResponse<Contact> getAllByCursor(String email, String password, int limit, String cursor){
 
-        System.out.println(" fetching contact from db cursor  " + name + " password " + password + " limit " + limit + " cursor : " + cursor);
+        log.info(" fetching contact from db cursor  " + email + " password " + password + " limit " + limit + " cursor : " + cursor);
 
-        return contactDao.getByCursorQuery(name,password,limit,cursor);
+        return contactDao.getByCursorQuery(email,password,limit,cursor);
     }
 
-    public List<Contact> getAllInOrder(String name){
+    public List<Contact> getAllInOrder(String email){
 
-        System.out.println(" fetching contact from db all-sorted " + name );
+        log.info(" fetching contact from db all-sorted " + email );
 
-        return contactDao.getAllInOrder(name);
+        return contactDao.getAllInOrder(email);
     }
 
-    public Contact getByName(String name){
+    public Contact getByEmail(String email){
 
-        System.out.println(" fetching contact from getByName " + name );
+        log.info(" fetching contact from getByName " + email );
 
-        return contactDao.getByName(name);
+        return contactDao.getByEmail(email);
     }
 
     public List<Contact> getAllContacts(){
 
-        System.out.println(" fetching contact from db all : " );
+        log.info(" fetching contact from db all : " );
 
         return contactDao.getAllContacts();
+    }
+
+    public List<Contact> getAddress(String email, String address){
+
+        log.info(" fetching addresss : " );
+
+        ArrayList<String> addresses = new ArrayList<>(Arrays.asList(address.split(",")));
+
+        return contactDao.getFilteredContactAddresses(email,addresses);
     }
 
 }
