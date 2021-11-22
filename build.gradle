@@ -56,6 +56,7 @@ subprojects {
 		implementation group: 'com.google.appengine', name: 'appengine-api-1.0-sdk', version: '1.9.91'
 		implementation group: 'com.googlecode.objectify', name: 'objectify', version: '6.0.7'
 		implementation group: 'com.google.guava', name: 'guava', version: '31.0.1-jre'
+		implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter-logging', version: '1.2.8.RELEASE'
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
 		testImplementation 'org.springframework.boot:spring-boot-starter-test'

@@ -4,6 +4,7 @@ repositories {
 
 dependencies {
     implementation project(':module2')
+    implementation group: 'com.google.cloud', name: 'google-cloud-tasks', version: '2.0.6'
 }
 
 appengine {

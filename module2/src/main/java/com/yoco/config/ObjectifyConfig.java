@@ -40,19 +40,19 @@ public class ObjectifyConfig {
         @Override
         public void contextInitialized(ServletContextEvent sce) {
 
-            ObjectifyService.init(new ObjectifyFactory(
-                    DatastoreOptions.newBuilder()
-                            .setHost("http://localhost:8484")
-                            .setProjectId("staging-goclockin")
-                            .build()
-                            .getService()
-            ));
+//            ObjectifyService.init(new ObjectifyFactory(
+//                    DatastoreOptions.newBuilder()
+//                            .setHost("http://localhost:8484")
+//                            .setProjectId("staging-goclockin")
+//                            .build()
+//                            .getService()
+//            ));
 
 
                 // on appengine
-//                ObjectifyService.init(new ObjectifyFactory(
-//                        DatastoreOptions.getDefaultInstance().getService()
-//                ));
+                ObjectifyService.init(new ObjectifyFactory(
+                        DatastoreOptions.getDefaultInstance().getService()
+                ));
 
             ObjectifyService.register(Contact.class);
         }

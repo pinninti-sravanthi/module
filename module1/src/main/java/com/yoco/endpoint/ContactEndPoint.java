@@ -3,17 +3,19 @@ package com.yoco.endpoint;
 import com.yoco.entity.CollectionResponse;
 import com.yoco.entity.Contact;
 import com.yoco.service.ContactService;
+import com.yoco.taskHandler.TaskCreator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @RestController
-public class ContactEndPoint {
+public class ContactEndPoint{
 
     @Autowired
     private ContactService contactService;
@@ -112,5 +114,28 @@ public class ContactEndPoint {
 
         return contactService.getAddress(email,address);
     }
+
+    @GetMapping("/createTask")
+    public String createTaskService(){
+        System.out.println(" came inside end point");
+        TaskCreator.createTask();
+        return "true";
+    }
+
+    @GetMapping("/tasks/create")
+    public void test(HttpServletResponse resp){
+
+        log.info(" in task handler ");
+
+        ContactService contactService = new ContactService();
+        Contact contact = new Contact();
+        contact.setEmail("test1@gmail.com");
+        contact.setPassword("1111");
+        contactService.saveContact(contact);
+
+        resp.setStatus(HttpServletResponse.SC_OK);
+
+    }
+
 
 }
